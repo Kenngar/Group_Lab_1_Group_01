@@ -5,7 +5,7 @@
 
 /**
  *
- * @author lajon
+ * @author Kenneth Garcia
  */
 public class Member1 {
     public static void main(String[]args){

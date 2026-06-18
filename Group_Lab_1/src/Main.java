@@ -5,7 +5,7 @@
 
 /**
  *
- * @author merinanngodly
+ * @author Kenneth Garcia
  */
 public class Main {
     
