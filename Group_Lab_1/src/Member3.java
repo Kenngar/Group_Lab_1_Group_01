@@ -5,15 +5,11 @@
 
 /**
  *
- * @author Kenneth Garcia
+ * @author christophercarmant
  */
-public class Main {
-    
-    public static void main(String[] args) {     
-        Member1.main(args);  
-        Member2.main(args);
-        Member3.main(args);
-
+public class Member3 {
+     public static void main(String[] args){
+        System.out.println("Hello from Member 3!");
     }
     
 }
