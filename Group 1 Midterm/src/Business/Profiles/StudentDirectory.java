@@ -5,6 +5,7 @@
  */
 package Business.Profiles;
 
+import Business.Department.Department;
 import Business.Person.Person;
 
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public class StudentDirectory {
 
      studentlist = new ArrayList();
 
+    }
+
+    public StudentDirectory(Department thisDepartment) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public StudentProfile newStudentProfile(Person p) {

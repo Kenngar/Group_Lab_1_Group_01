@@ -5,8 +5,10 @@
  */
 package Business;
 
+import Business.Department.Department;
 import Business.Person.PersonDirectory;
 import Business.Profiles.EmployeeDirectory;
+import Business.Profiles.FacultyDirectory;
 import Business.Profiles.StudentDirectory;
 
 import Business.UserAccounts.UserAccountDirectory;
@@ -19,22 +21,29 @@ public class Business {
 
     String name;
     PersonDirectory persondirectory; //all people profiles regardless of the role
-
     EmployeeDirectory employeedirectory;
     UserAccountDirectory useraccountdirectory;
     StudentDirectory studentdirectory;
-    
+    FacultyDirectory facultydirectory; 
+    Department thisDepartment;
 
 
     public Business(String n) {
         name = n;
-
+        
         persondirectory = new PersonDirectory();
         employeedirectory = new EmployeeDirectory(this);
-        useraccountdirectory = new UserAccountDirectory();
-        studentdirectory = new StudentDirectory();
+        useraccountdirectory = new UserAccountDirectory();   
+        studentdirectory = new StudentDirectory(thisDepartment);
+        facultydirectory = new FacultyDirectory(thisDepartment);
 
-
+    }
+    public void setDepartment(Department d) {
+        this.thisDepartment = d;
+        studentdirectory = new StudentDirectory(thisDepartment);
+    }
+    public Department getDepartment() {
+        return thisDepartment;
     }
 
     public PersonDirectory getPersonDirectory() {
@@ -52,6 +61,15 @@ public class Business {
 
     public StudentDirectory getStudentDirectory(){
         return studentdirectory;
+    }
+
+
+    public FacultyDirectory getFacultydirectory() {
+        return facultydirectory;
+    }
+
+    public void setFacultydirectory(FacultyDirectory facultydirectory) {
+        this.facultydirectory = facultydirectory;
     }
 
 }

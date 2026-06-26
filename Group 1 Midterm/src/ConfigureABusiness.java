@@ -6,6 +6,10 @@
 */
 package Business;
 
+import Business.Course.Course;
+import Business.CourseSchedule.CourseOffer;
+import Business.CourseSchedule.CourseSchedule;
+import Business.Department.Department;
 import Business.Person.Person;
 import Business.Person.PersonDirectory;
 import Business.Profiles.EmployeeDirectory;
@@ -54,8 +58,41 @@ class ConfigureABusiness {
         UserAccount ua3 = uadirectory.newUserAccount(employeeprofile0, "admin", "****"); /// order products for one of the customers and performed by a sales person
         UserAccount ua4 = uadirectory.newUserAccount(studentprofile0, "adam", "****"); /// order products for one of the customers and performed by a sales person
 
+        Department department = new Department("MSIS");
+        business.setDepartment(department);
+        
+        Course c001 = department.newCourse("0001", "INFO5001", 3);
+        Course c002 = department.newCourse("0002", "INFO5002", 3);
+        Course c003 = department.newCourse("0003", "APPL5011", 3);
+        Course c004 = department.newCourse("0004", "APPL5012", 3);
+        Course c005 = department.newCourse("0005", "SYST5021", 3);
+        Course c006 = department.newCourse("0006", "SYST5022", 3);
+        Course c007 = department.newCourse("0007", "DAMG5031", 3); 
+        Course c008 = department.newCourse("0008", "DAMG5032", 3);
+         
+        CourseSchedule cs001 = department.newCourseSchedule("Fall 2026");
+        CourseSchedule cs002 = department.newCourseSchedule("Spring 2027");
+        
+        CourseOffer co1 = cs001.newCourseOffer("INFO5001");
+        CourseOffer co2 = cs002.newCourseOffer("INFO5002");
+        CourseOffer co3 = cs001.newCourseOffer("APPL5011");
+        CourseOffer co4 = cs002.newCourseOffer("APPL5012");
+        CourseOffer co5 = cs001.newCourseOffer("SYST5021");
+        CourseOffer co6 = cs002.newCourseOffer("SYST5022");
+        CourseOffer co7 = cs001.newCourseOffer("DAMG5031");
+        CourseOffer co8 = cs002.newCourseOffer("DAMG5032");
+        CourseOffer co9 = cs002.newCourseOffer("INFO5001");
+        
+        department.addCoreCourse(c001);
+        department.addCoreCourse(c002);
+        department.addCoreCourse(c003);
+        department.addCoreCourse(c004);
+        department.addElectiveCourse(c005);
+        department.addElectiveCourse(c006);
+        department.addElectiveCourse(c007);
+        department.addElectiveCourse(c008);
+        
         return business;
-
     }
 
 }
