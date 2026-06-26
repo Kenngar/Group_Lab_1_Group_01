@@ -63,4 +63,8 @@ public class FacultyDirectory {
        teacherlist.remove(fp);
     }
     
+    public ArrayList<FacultyProfile> getFacultyList() {
+        return teacherlist;
+    }
+    
 }

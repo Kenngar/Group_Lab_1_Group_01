@@ -18,6 +18,8 @@ public class UserAccount {
     Profile profile;
     String username;
     String password;
+    String status = "Active";
+    String lastUpdated = "N/A";
     
     public UserAccount (Profile profile, String un, String pw){
         username = un;
@@ -33,6 +35,34 @@ public class UserAccount {
         return username;
     }
 
+    public void setUserLoginName(String un) {
+        this.username = un;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String pw) {
+        this.password = pw;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+    
         public boolean isMatch(String id){
         if(getPersonId().equals(id)) return true;
         return false;
