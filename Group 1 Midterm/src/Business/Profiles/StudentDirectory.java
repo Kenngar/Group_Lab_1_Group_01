@@ -26,7 +26,7 @@ public class StudentDirectory {
     }
 
     public StudentDirectory(Department thisDepartment) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        studentlist = new ArrayList(); 
     }
 
     public StudentProfile newStudentProfile(Person p) {
