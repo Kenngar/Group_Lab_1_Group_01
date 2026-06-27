@@ -40,7 +40,6 @@ public class Business {
     }
     public void setDepartment(Department d) {
         this.thisDepartment = d;
-        studentdirectory = new StudentDirectory(thisDepartment);
     }
     public Department getDepartment() {
         return thisDepartment;
