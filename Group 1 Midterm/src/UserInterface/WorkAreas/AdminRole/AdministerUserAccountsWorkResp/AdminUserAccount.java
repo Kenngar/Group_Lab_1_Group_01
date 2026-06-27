@@ -5,29 +5,35 @@
  */
 package UserInterface.WorkAreas.AdminRole.AdministerUserAccountsWorkResp;
 
+import Business.Business;
 import Business.UserAccounts.UserAccount;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *h
+ * h
+ *
  * @author kal bugrara
  */
-
 public class AdminUserAccount extends javax.swing.JPanel {
 
     /**
      * Creates new form ManageSuppliersJPanel
      */
     JPanel CardSequencePanel;
-
+    Business business;
     UserAccount selecteduseraccount;
+    ManageUserAccountsJPanel parent;
 
-    public AdminUserAccount(UserAccount sua, JPanel jp) {
-
-        CardSequencePanel = jp;
-        selecteduseraccount= sua;
+    public AdminUserAccount(Business bz, UserAccount sua, ManageUserAccountsJPanel parent, JPanel jp) {
+        this.business = bz;
+        this.selecteduseraccount = sua;
+        this.parent = parent;
+        this.CardSequencePanel = jp;
         initComponents();
         //display user details here
+
+        populate();
 
     }
 
@@ -48,7 +54,7 @@ public class AdminUserAccount extends javax.swing.JPanel {
         lblName = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
-        txtUserName = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         lblStatus = new javax.swing.JLabel();
         lblNameValue = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
@@ -104,8 +110,8 @@ public class AdminUserAccount extends javax.swing.JPanel {
         lblPassword.setBounds(40, 180, 100, 20);
         add(txtPassword);
         txtPassword.setBounds(210, 180, 280, 23);
-        add(txtUserName);
-        txtUserName.setBounds(210, 140, 280, 23);
+        add(txtUsername);
+        txtUsername.setBounds(210, 140, 280, 23);
 
         lblStatus.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         lblStatus.setText("Status");
@@ -145,22 +151,44 @@ public class AdminUserAccount extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-
-        CardSequencePanel.remove(this);
-        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        int confirm = JOptionPane.showConfirmDialog(this, "Delete account \"" + selecteduseraccount.getUserLoginName() + "\"?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+        business.getUserAccountDirectory().deleteUserAccount(selecteduseraccount);
+        if (parent != null) {
+            parent.refreshTable();
+        }
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-         CardSequencePanel.remove(this);
+        CardSequencePanel.remove(this);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
-
 
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
         // TODO add your handling code here:
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and password cannot be empty.",
+                    "Missing Information", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        selecteduseraccount.setUserLoginName(username);
+        selecteduseraccount.setPassword(password);
+        selecteduseraccount.setStatus((String) cmbStatus.getSelectedItem());
+
+        parent.refreshTable();
+        JOptionPane.showMessageDialog(this, "Account updated.");
+
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnUpdate1ActionPerformed
 
 
@@ -180,7 +208,16 @@ public class AdminUserAccount extends javax.swing.JPanel {
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtUserName;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    private void populate() {
+        lblRoleValue.setText(selecteduseraccount.getRole());
+        lblNameValue.setText(selecteduseraccount.getAssociatedPersonProfile().getPerson().getName());
+        txtUsername.setText(selecteduseraccount.getUserLoginName());
+        txtPassword.setText(selecteduseraccount.getPassword());
+        cmbStatus.setSelectedItem(selecteduseraccount.getStatus());
+        lblLastUpdatedValue.setText(selecteduseraccount.getLastUpdatedText());
+    }
 
 }
