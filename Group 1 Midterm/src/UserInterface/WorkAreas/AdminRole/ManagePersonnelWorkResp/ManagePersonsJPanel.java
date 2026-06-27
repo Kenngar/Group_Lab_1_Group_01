@@ -21,6 +21,8 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
      */
     JPanel CardSequencePanel;
     Business business;
+    Person selectedPerson;
+
 
 
     public ManagePersonsJPanel(Business bz, JPanel jp) {

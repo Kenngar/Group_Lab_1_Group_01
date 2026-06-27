@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author anhnguyen
  */
 public class ManageEmployeeJPanel extends javax.swing.JPanel {
+
     JPanel CardSequencePanel;
     Business business;
     UserAccount currentUser; // logged-in admin (to prevent self-delete)
@@ -32,7 +33,7 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
         this.currentUser = currentUser;
         this.CardSequencePanel = jp;
         initComponents();
-        
+
         refreshTable();
     }
 
@@ -212,18 +213,18 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
     private void tblEmployeeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMousePressed
         // TODO add your handling code here:
         int row = tblEmployee.getSelectedRow();
-    if (row < 0) {
-        return;
-    }
-    selected = rowProfiles.get(row);
-    txtName.setText(selected.getPerson().getName());
-    txtEmail.setText(selected.getPerson().getEmail());
-    txtPhone.setText(selected.getPerson().getPhoneNumber());
+        if (row < 0) {
+            return;
+        }
+        selected = rowProfiles.get(row);
+        txtName.setText(selected.getPerson().getName());
+        txtEmail.setText(selected.getPerson().getEmail());
+        txtPhone.setText(selected.getPerson().getPhoneNumber());
     }//GEN-LAST:event_tblEmployeeMousePressed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-         if (selected == null) {
+        if (selected == null) {
             JOptionPane.showMessageDialog(this, "Select an employee first.",
                     "Selection Required", JOptionPane.WARNING_MESSAGE);
             return;
@@ -250,7 +251,6 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
         txtPhone.setText("");
         refreshTable();
         JOptionPane.showMessageDialog(this, "Employee deleted.");
-    
 
 
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -284,8 +284,8 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
         }
         tblEmployee.setModel(model);
     }
-    
-      private DefaultTableModel buildModel() {
+
+    private DefaultTableModel buildModel() {
         return new DefaultTableModel(new Object[][]{},
                 new String[]{"Employee Name", "Email", "Phone"}) {
             @Override

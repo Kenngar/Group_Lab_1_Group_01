@@ -159,18 +159,18 @@ public class ManageFacultyJPanel extends javax.swing.JPanel {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-         if (selected == null) {
+        if (selected == null) {
             JOptionPane.showMessageDialog(this, "Select a faculty member first.",
                     "Selection Required", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String name = txtName.getText().trim();
+        String name = txtName.getText();
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Name cannot be empty.",
                     "Validation", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        selected.getPerson().setPersonId(name);
+        selected.getPerson().setName(name);
         refreshTable();
         JOptionPane.showMessageDialog(this, "Faculty updated.");
 
@@ -194,13 +194,19 @@ public class ManageFacultyJPanel extends javax.swing.JPanel {
         txtName.setText("");
         refreshTable();
         JOptionPane.showMessageDialog(this, "Faculty deleted.");
-        
-    
+
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblFacultyMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFacultyMousePressed
         // TODO add your handling code here:
+        int row = tblFaculty.getSelectedRow();
+        if (row < 0) {
+            return;
+        }
+        selected = rowProfiles.get(row);
+        txtName.setText(selected.getPerson().getName());
+
     }//GEN-LAST:event_tblFacultyMousePressed
 
 
@@ -217,30 +223,20 @@ public class ManageFacultyJPanel extends javax.swing.JPanel {
 
     private void refreshTable() {
         rowProfiles.clear();
-         DefaultTableModel model = new DefaultTableModel(new Object[][]{},
-                new String[]{"Faculty Name", "Title", "Department","# Assignments"});
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{},
+                new String[]{"Faculty Name", "Title", "Department", "# Assignments"});
         for (FacultyProfile fp : business.getFacultydirectory().getFacultyList()) {
             rowProfiles.add(fp);
             int count = fp.getFacultyassignments().size();
-            
+
             Object[] row = new Object[4];
-            row[0] = fp;
-            row[1] = fp.getTitle();
+            row[0] = fp.getPerson().getName();   
+            row[1] ="N/A";
             row[2] = "N/A";
             row[3] = count;
             model.addRow(row);
         }
-
+        tblFaculty.setModel(model);
     }
-    
-     private void rowSelected() {
-        int row = tblFaculty.getSelectedRow();
-        if (row < 0) {
-            return;
-        }
-        selected = rowProfiles.get(row);
-        txtName.setText(selected.getPerson().getPersonId());
-    }
-
 
 }

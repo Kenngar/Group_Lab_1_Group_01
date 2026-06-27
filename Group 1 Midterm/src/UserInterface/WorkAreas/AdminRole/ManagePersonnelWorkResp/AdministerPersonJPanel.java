@@ -7,9 +7,10 @@ package UserInterface.WorkAreas.AdminRole.ManagePersonnelWorkResp;
 
 import Business.Business;
 import Business.Person.Person;
-import Business.Person.PersonDirectory;
-import Business.Profiles.EmployeeDirectory;
-import Business.Profiles.EmployeeProfile;
+import Business.Profiles.Profile;
+import Business.Profiles.StudentProfile;
+import Business.Profiles.FacultyProfile;
+import Business.UserAccounts.UserAccount;
 import Business.UserAccounts.UserAccountDirectory;
 import javax.swing.JOptionPane;
 
@@ -25,21 +26,16 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
      * Creates new form ManageSuppliersJPanel
      */
     JPanel CardSequencePanel;
-
+    Person person;
+    Profile createdProfile;
     Business business;
     ManagePersonsJPanel parent;
 
-    public AdministerPersonJPanel(Business bz, JPanel jp, ManagePersonsJPanel parent) {
-
+    public AdministerPersonJPanel(Business bz, Person p, JPanel jp) {
         CardSequencePanel = jp;
         this.business = bz;
-        this.parent = parent;
+        this.person = p;
         initComponents();
-
-
-    }
-
-    public void refreshTable() {
 
     }
 
@@ -67,6 +63,8 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
         btnCreate = new javax.swing.JButton();
         btnCreateProfile = new javax.swing.JButton();
         btnBack1 = new javax.swing.JButton();
+        lblUserName1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 153, 153));
         setLayout(null);
@@ -118,17 +116,27 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
         add(txtUsename);
         txtUsename.setBounds(400, 280, 160, 23);
 
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Employee/Admin", "Faculty", "Student" }));
         add(cmbRole);
         cmbRole.setBounds(100, 280, 150, 23);
 
         btnCreate.setText("Create User Account");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
         add(btnCreate);
-        btnCreate.setBounds(400, 310, 160, 23);
+        btnCreate.setBounds(400, 350, 160, 23);
 
         btnCreateProfile.setText("Create Profile");
+        btnCreateProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateProfileActionPerformed(evt);
+            }
+        });
         add(btnCreateProfile);
-        btnCreateProfile.setBounds(100, 310, 150, 23);
+        btnCreateProfile.setBounds(100, 350, 160, 23);
 
         btnBack1.setText("<< Back");
         btnBack1.addActionListener(new java.awt.event.ActionListener() {
@@ -137,20 +145,98 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
             }
         });
         add(btnBack1);
-        btnBack1.setBounds(30, 400, 80, 23);
+        btnBack1.setBounds(30, 420, 80, 23);
+
+        lblUserName1.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        lblUserName1.setText("Password");
+        add(lblUserName1);
+        lblUserName1.setBounds(310, 310, 80, 19);
+        add(txtPassword);
+        txtPassword.setBounds(400, 310, 160, 23);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        CardSequencePanel.remove(this);
-        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        String name = txtFullName.getText();
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Full name cannot be empty.",
+                    "Validation", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        person.setName(name);
+        person.setEmail(txtEmail.getText());
+        person.setPhoneNumber(txtPhone.getText());
+        JOptionPane.showMessageDialog(this, "Person details saved.");
 
-        
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
         // TODO add your handling code here:
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBack1ActionPerformed
+
+    private void btnCreateProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProfileActionPerformed
+        // TODO add your handling code here:
+
+        if (createdProfile != null) {
+            JOptionPane.showMessageDialog(this, "A profile already exists for this person.");
+            return;
+        }
+
+        String role = (String) cmbRole.getSelectedItem();
+
+        if (role.equals("Employee/Admin")) {
+            createdProfile = business.getEmployeeDirectory().newEmployeeProfile(person);
+        } else if (role.equals("Student")) {
+            createdProfile = business.getStudentDirectory().newStudentProfile(person);
+        } else if (role.equals("Faculty")) {
+            createdProfile = business.getFacultydirectory().newFacultyProfile(person);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please choose a valid role.");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, role + " profile created. Now create a user account.");
+
+    }//GEN-LAST:event_btnCreateProfileActionPerformed
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+        // Validation: profile must exist first
+        if (createdProfile == null) {
+            JOptionPane.showMessageDialog(this, "Create a profile (role) first.");
+            return;
+        }
+
+        String un = txtUsename.getText().trim();
+        String pw = txtPassword.getText();
+
+        if (un.isEmpty() || pw.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and password are required.");
+            return;
+        }
+
+        UserAccountDirectory uad = business.getUserAccountDirectory();
+        if (uad.findByUsername(un) != null) {
+            JOptionPane.showMessageDialog(this, "That username is already taken.");
+            return;
+        }
+
+        UserAccount ua = uad.newUserAccount(createdProfile, un, pw);
+        ua.setStatus("Active");
+
+        if (createdProfile instanceof StudentProfile) {
+            ((StudentProfile) createdProfile).setUserAccount(ua);
+        } else if (createdProfile instanceof FacultyProfile) {
+            ((FacultyProfile) createdProfile).setUserAccount(ua);
+        }
+
+        JOptionPane.showMessageDialog(this, "User account created.");
+
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnCreateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -165,8 +251,10 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblUserName;
+    private javax.swing.JLabel lblUserName1;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullName;
+    private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtUsename;
     // End of variables declaration//GEN-END:variables
