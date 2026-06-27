@@ -6,9 +6,12 @@
 package UserInterface.WorkAreas.AdminRole.ManagePersonnelWorkResp;
 
 import Business.Business;
-
+import Business.Person.Person;
+import Business.Person.PersonDirectory;
+import javax.swing.JOptionPane;
 
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,15 +26,13 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
     Business business;
     Person selectedPerson;
 
-
-
     public ManagePersonsJPanel(Business bz, JPanel jp) {
         CardSequencePanel = jp;
         this.business = bz;
         initComponents();
+        refreshTable();
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,7 +54,7 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
         txtPhone = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblRegisterPerson = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 153, 153));
         setLayout(null);
@@ -97,6 +98,11 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
         lblName.setBounds(30, 70, 70, 20);
 
         btnAddPerson.setText("Add Person");
+        btnAddPerson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPersonActionPerformed(evt);
+            }
+        });
         add(btnAddPerson);
         btnAddPerson.setBounds(220, 190, 140, 23);
         add(txtEmail);
@@ -106,7 +112,7 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
         add(txtName);
         txtName.setBounds(130, 70, 320, 23);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblRegisterPerson.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -125,7 +131,7 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblRegisterPerson);
 
         add(jScrollPane1);
         jScrollPane1.setBounds(50, 240, 520, 150);
@@ -135,18 +141,60 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         CardSequencePanel.remove(this);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
- //       ((java.awt.CardLayout)CardSequencePanel.getLayout()).show(CardSequencePanel, "IdentifyEventTypes");
 
     }//GEN-LAST:event_BackActionPerformed
 
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
         // TODO add your handling code here:
-        
-        AdministerPersonJPanel mppd = new AdministerPersonJPanel(business, CardSequencePanel);
+        // Validation: a person must be selected to administer
+        int selectedRow = tblRegisterPerson.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a person from the table first.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        selectedPerson = (Person) tblRegisterPerson.getValueAt(selectedRow, 0);
+        if (selectedPerson == null) {
+            return;
+        }
+
+        AdministerPersonJPanel mppd = new AdministerPersonJPanel(business, selectedPerson, CardSequencePanel);
         CardSequencePanel.add(mppd);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
     }//GEN-LAST:event_NextActionPerformed
+
+    private void btnAddPersonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPersonActionPerformed
+        // TODO add your handling code here:
+        String name = txtName.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhone.getText().trim();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a person's name.",
+                    "Validation", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        PersonDirectory pd = business.getPersonDirectory();
+
+        if (pd.findPerson(name) != null) {
+            JOptionPane.showMessageDialog(this, "A person named \"" + name + "\" already exists.",
+                    "Duplicate", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Person p = pd.newPerson(name);   // create with name
+        p.setEmail(email);               // then save email
+        p.setPhoneNumber(phone);         // and phone
+
+        txtName.setText("");
+        txtEmail.setText("");            // clear all three fields after adding
+        txtPhone.setText("");
+        refreshTable();
+        JOptionPane.showMessageDialog(this, "Person registered: " + name);
+    }//GEN-LAST:event_btnAddPersonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -154,14 +202,32 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
     private javax.swing.JButton Next;
     private javax.swing.JButton btnAddPerson;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable tblRegisterPerson;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
+
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) tblRegisterPerson.getModel();
+
+        // clear existing rows
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
+        PersonDirectory pd = business.getPersonDirectory();
+        for (Person p : pd.getPersonList()) {
+            Object[] row = new Object[3];
+            row[0] = p; // Person.toString() shows the name
+            row[1] = p.getEmail();
+            row[2] = p.getPhoneNumber();
+            model.addRow(row);
+        }
+    }
 
 }
