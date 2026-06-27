@@ -77,6 +77,8 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
         add(jLabel2);
         jLabel2.setBounds(21, 20, 550, 28);
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(632, 482));
+
         tblManageUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -104,7 +106,7 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblManageUser);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(20, 80, 590, 140);
+        jScrollPane1.setBounds(10, 70, 600, 150);
 
         btnBack.setText("<< Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {

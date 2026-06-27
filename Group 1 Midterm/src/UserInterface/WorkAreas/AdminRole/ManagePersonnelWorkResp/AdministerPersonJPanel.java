@@ -37,6 +37,8 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
         this.person = p;
         initComponents();
 
+        populate();
+
     }
 
     /**
@@ -258,5 +260,11 @@ public class AdministerPersonJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtUsename;
     // End of variables declaration//GEN-END:variables
+
+    private void populate() {
+        txtFullName.setText(person.getName());
+        txtEmail.setText(person.getEmail());
+        txtPhone.setText(person.getPhoneNumber());
+    }
 
 }

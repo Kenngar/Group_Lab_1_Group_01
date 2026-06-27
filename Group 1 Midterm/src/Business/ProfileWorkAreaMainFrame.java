@@ -131,6 +131,8 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 153, 255));
         jLabel3.setText("Education Going Digital .... Info 5100 ");
+        jLabel3.setPreferredSize(new java.awt.Dimension(632, 482));
+        jLabel3.setRequestFocusEnabled(false);
         CardSequencePanel.add(jLabel3, "card2");
 
         SplitHomeArea.setRightComponent(CardSequencePanel);
