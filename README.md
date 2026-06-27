@@ -36,31 +36,32 @@ logs in, the application authenticates their credentials and routes them to the 
 5. Features Implemented
 //Detail the functionalities implemented for each role
 //Clearly specify which team member was responsible for each feature
-- Admin - (Anh Nguyen - Member 2) 
-    Administer User Accounts (ManageUserAccountsJPanel, AdminUserAccount, CreateUserAccountJPanel) 
-        View all user accounts in a table (User Name, Status, Person, Last Updated).
-        Create a new account for any person who has a profile but no account yet (the create screen lists only account-less profiles           from the Employee, Student, and Faculty directories).
-        Modify an account's username, password, and status; the person's name is shown read-only.
-        Delete an account with a confirmation prompt.
-    Register Persons (HR) (ManagePersonsJPanel → AdministerPersonJPanel)
-        Register a new person with name, email, and phone.
-        Select a registered person and assign them a role (Employee/Admin, Faculty, or Student), which creates the matching profile.
-        Create a user account (username + password) for the newly profiled person, with duplicate username validation.
-    Manage Students (ManageStudentJPanel)
-        View all students (Name, Email, Phone, Hobbies).
-        Update a selected student's details.
-        Delete a student (and their linked login if one exists).
-    Manage Faculty (ManageFacultyJPanel)
-        View all faculty members in a table.
-        Update a selected faculty member's name.
-        Delete a faculty member.
-    Manage Staff / Employees (ManageEmployeeJPanel)
-        View all employees (Name, Email, Phone).
-        Update a selected employee's details.
-        Delete an employee, with a guard that prevents the logged-in admin from deleting their own record.
-    My Profile (AdminMyProfileJPanel)
-        View the logged-in admin's own details (name, role, last updated).
-        Update their own email, phone, username, and password, with duplicate-username validation.
+Admin - (Anh Nguyen - Member 2)
+- Administer User Accounts (ManageUserAccountsJPanel, AdminUserAccount, CreateUserAccountJPanel) 
+  View all user accounts in a table (User Name, Status, Person, Last Updated).
+  Create a new account for any person who has a profile but no account yet (the create screen lists only account-less profiles
+  from the Employee, Student, and Faculty directories).
+  Modify an account's username, password, and status; the person's name is shown read-only.
+  Delete an account with a confirmation prompt.
+- Register Persons (HR) (ManagePersonsJPanel → AdministerPersonJPanel)
+  Register a new person with name, email, and phone.
+  Select a registered person and assign them a role (Employee/Admin, Faculty, or Student), which creates the matching profile.
+  Create a user account (username + password) for the newly profiled person, with duplicate username validation.
+- Manage Students (ManageStudentJPanel)
+  View all students (Name, Email, Phone, Hobbies).
+  Update a selected student's details.
+  Delete a student (and their linked login if one exists).
+- Manage Faculty (ManageFacultyJPanel)
+  View all faculty members in a table.
+  Update a selected faculty member's name.
+  Delete a faculty member.
+- Manage Staff / Employees (ManageEmployeeJPanel)
+  View all employees (Name, Email, Phone).
+  Update a selected employee's details.
+  Delete an employee, with a guard that prevents the logged-in admin from deleting their own record.
+- My Profile (AdminMyProfileJPanel)
+  View the logged-in admin's own details (name, role, last updated).
+  Update their own email, phone, username, and password, with duplicate-username validation.
 
 6. Usage Instructions
 //Provide a step-by-step guide on how to interact with the system.
