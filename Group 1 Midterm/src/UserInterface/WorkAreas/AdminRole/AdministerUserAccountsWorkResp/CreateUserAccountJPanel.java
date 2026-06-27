@@ -4,17 +4,40 @@
  */
 package UserInterface.WorkAreas.AdminRole.AdministerUserAccountsWorkResp;
 
+import java.util.ArrayList;
+import javax.swing.JPanel;
+import Business.Business;
+import Business.Profiles.EmployeeProfile;
+import Business.Profiles.FacultyProfile;
+import Business.Profiles.Profile;
+import Business.Profiles.StudentProfile;
+import Business.UserAccounts.UserAccount;
+import Business.UserAccounts.UserAccountDirectory;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author anhnguyen
  */
 public class CreateUserAccountJPanel extends javax.swing.JPanel {
 
+    JPanel CardSequencePanel;
+    Business business;
+    ManageUserAccountsJPanel parent;
+
+    ArrayList<Profile> availableProfiles = new ArrayList<>();
+
     /**
      * Creates new form CreateUserAccountJPanel
      */
-    public CreateUserAccountJPanel() {
+    public CreateUserAccountJPanel(Business bz, ManageUserAccountsJPanel parent, JPanel jp) {
+        this.business = bz;
+        this.parent = parent;
+        this.CardSequencePanel = jp;
         initComponents();
+
+        refreshtable();
     }
 
     /**
@@ -137,10 +160,53 @@ public class CreateUserAccountJPanel extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        int row = tblUserAccount.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a profile.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String un = txtUsername.getText().trim();
+        String pw = txtPassword.getText();
+
+        if (un.isEmpty() || pw.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and password are required.",
+                    "Validation", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        UserAccountDirectory uad = business.getUserAccountDirectory();
+        if (uad.findByUsername(un) != null) {
+            JOptionPane.showMessageDialog(this, "That username is already taken.",
+                    "Duplicate", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Profile profile = availableProfiles.get(row);
+        UserAccount ua = uad.newUserAccount(profile, un, pw);
+        ua.setStatus("Active");
+
+        if (profile instanceof StudentProfile) {
+            ((StudentProfile) profile).setUserAccount(ua);
+        } else if (profile instanceof FacultyProfile) {
+            ((FacultyProfile) profile).setUserAccount(ua);
+        }
+
+        if (parent != null) {
+            parent.refreshTable();
+        }
+        JOptionPane.showMessageDialog(this, "Account created: " + un);
+
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnCreateActionPerformed
 
 
@@ -155,4 +221,36 @@ public class CreateUserAccountJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    private void refreshtable() {
+        availableProfiles.clear();
+
+        UserAccountDirectory uad = business.getUserAccountDirectory();
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new String[]{"Person", "Role"});
+
+        // For Employees without an account
+        for (EmployeeProfile ep : business.getEmployeeDirectory().getEmployeeList()) {
+            if (uad.findUserAccount(ep.getPerson().getPersonId()) == null) {
+                availableProfiles.add(ep);
+                model.addRow(new Object[]{ep.getPerson().getName(), ep.getRole()});
+            }
+        }
+        // For Students without an account
+        for (StudentProfile sp : business.getStudentDirectory().getStudentList()) {
+            if (uad.findUserAccount(sp.getPerson().getPersonId()) == null) {
+                availableProfiles.add(sp);
+                model.addRow(new Object[]{sp.getPerson().getName(), sp.getRole()});
+            }
+        }
+        // For faculty without an account
+        for (FacultyProfile fp : business.getFacultydirectory().getFacultyList()) {
+            if (uad.findUserAccount(fp.getPerson().getPersonId()) == null) {
+                availableProfiles.add(fp);
+                model.addRow(new Object[]{fp.getPerson().getName(), fp.getRole()});
+            }
+        }
+
+        tblUserAccount.setModel(model);
+    }
+
 }
