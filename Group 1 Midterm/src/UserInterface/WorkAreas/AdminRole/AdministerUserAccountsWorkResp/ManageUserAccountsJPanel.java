@@ -8,7 +8,7 @@ package UserInterface.WorkAreas.AdminRole.AdministerUserAccountsWorkResp;
 import Business.Business;
 import Business.UserAccounts.UserAccount;
 import Business.UserAccounts.UserAccountDirectory;
-
+import javax.swing.JOptionPane;
 
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +26,6 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
     Business business;
     UserAccount selecteduseraccount;
 
-
     public ManageUserAccountsJPanel(Business bz, JPanel jp) {
         CardSequencePanel = jp;
         this.business = bz;
@@ -35,35 +34,6 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
 
     }
 
-    public void refreshTable() {
-
-//clear supplier table
-        int rc = UserAccountTable.getRowCount();
-        int i;
-        for (i = rc - 1; i >= 0; i--) {
-            ((DefaultTableModel) UserAccountTable.getModel()).removeRow(i);
-        }
-
-
-
-        UserAccountDirectory uad = business.getUserAccountDirectory();
-
-       
-
-        for (UserAccount ua : uad.getUserAccountList()) {
-
-            Object[] row = new Object[5];
-            row[0] = ua;
- //           row[1] = ua.getStatus(); //complete this..
- //           row[2] = ua.getLastUpdated()
- //           row[3] = 
-
-            ((DefaultTableModel) UserAccountTable.getModel()).addRow(row);
-        }
-
-    }
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,47 +127,60 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
 
     private void btnCreateNewAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewAccountActionPerformed
         // TODO add your handling code here:
-        CardSequencePanel.remove(this);
+        CreateUserAccountJPanel panel = new CreateUserAccountJPanel(business, this, CardSequencePanel);
+        CardSequencePanel.add("CreateUserAccount", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
- //       ((java.awt.CardLayout)CardSequencePanel.getLayout()).show(CardSequencePanel, "IdentifyEventTypes");
 
     }//GEN-LAST:event_btnCreateNewAccountActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if(selecteduseraccount==null) return;
-        AdminUserAccount mppd = new AdminUserAccount(selecteduseraccount, CardSequencePanel);
-        CardSequencePanel.add(mppd);
-        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        if (selecteduseraccount == null) {
+            JOptionPane.showMessageDialog(this, "Please select an account to delete.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Delete account \"" + selecteduseraccount.getUserLoginName() + "\"?",
+                "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+        business.getUserAccountDirectory().deleteUserAccount(selecteduseraccount);
+        selecteduseraccount = null;
+        refreshTable();
+        JOptionPane.showMessageDialog(this, "Account deleted.");
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void tblManageUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblManageUserMousePressed
-        // Extracts the row (uaser account) in the table that is selected by the user
-        int size = UserAccountTable.getRowCount();
-        int selectedrow = UserAccountTable.getSelectionModel().getLeadSelectionIndex();
-
-        if (selectedrow < 0 || selectedrow > size - 1) {
-            return;
-        }
-        selecteduseraccount = (UserAccount) UserAccountTable.getValueAt(selectedrow, 0);
-        if (selecteduseraccount == null) {
-            return;
-        
-        
-            
-    }//GEN-LAST:event_tblManageUserMousePressed
-
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         // TODO add your handling code here:
+        if (selecteduseraccount == null) {
+            JOptionPane.showMessageDialog(this, "Please select an account to modify.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        AdminUserAccount detail = new AdminUserAccount(business, selecteduseraccount, this, CardSequencePanel);
+        CardSequencePanel.add("AdminUserAccount", detail);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnModifyActionPerformed
-    
-    }
-    
+
+    private void tblManageUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblManageUserMousePressed
+        // TODO add your handling code here:
+        int selectedRow = tblManageUser.getSelectedRow();
+        if (selectedRow < 0) {
+            return;
+        }
+        selecteduseraccount = (UserAccount) tblManageUser.getValueAt(selectedRow, 0);
+    }//GEN-LAST:event_tblManageUserMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -208,5 +191,23 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblManageUser;
     // End of variables declaration//GEN-END:variables
+
+    public void refreshTable() {
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"User Name", "Status", "Person", "Last Updated"});
+
+        UserAccountDirectory uad = business.getUserAccountDirectory();
+        for (UserAccount ua : uad.getUserAccountList()) {
+            Object[] row = new Object[4];
+            row[0] = ua;                  // toString() shows username
+            row[1] = ua.getStatus();
+            row[2] = ua.getPersonId();
+            row[3] = ua.getLastUpdatedText();
+            model.addRow(row);
+        }
+        tblManageUser.setModel(model);
+
+    }
 
 }

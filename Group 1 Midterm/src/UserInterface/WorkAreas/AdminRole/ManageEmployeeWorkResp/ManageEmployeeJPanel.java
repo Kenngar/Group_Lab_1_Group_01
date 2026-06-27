@@ -4,17 +4,36 @@
  */
 package UserInterface.WorkAreas.AdminRole.ManageEmployeeWorkResp;
 
+import Business.Business;
+import Business.Profiles.EmployeeProfile;
+import Business.UserAccounts.UserAccount;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author anhnguyen
  */
 public class ManageEmployeeJPanel extends javax.swing.JPanel {
+    JPanel CardSequencePanel;
+    Business business;
+    UserAccount currentUser; // logged-in admin (to prevent self-delete)
+
+    ArrayList<EmployeeProfile> rowProfiles = new ArrayList<>();
+    EmployeeProfile selected;
 
     /**
      * Creates new form ManageEmployeeJPanel
      */
-    public ManageEmployeeJPanel() {
+    public ManageEmployeeJPanel(Business bz, UserAccount currentUser, JPanel jp) {
+        this.business = bz;
+        this.currentUser = currentUser;
+        this.CardSequencePanel = jp;
         initComponents();
+        
+        refreshTable();
     }
 
     /**
@@ -32,7 +51,7 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblFaculty = new javax.swing.JTable();
+        tblEmployee = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
         txtEmail = new javax.swing.JTextField();
         lblEmail = new javax.swing.JLabel();
@@ -61,7 +80,7 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
             }
         });
 
-        tblFaculty.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -80,12 +99,12 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblFaculty.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                tblFacultyMousePressed(evt);
+                tblEmployeeMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(tblFaculty);
+        jScrollPane1.setViewportView(tblEmployee);
 
         btnDelete.setText("Delete ");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -173,43 +192,66 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         if (selected == null) {
-            JOptionPane.showMessageDialog(this, "Select a faculty member first.",
-                "Selection Required", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Select an employee first.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
             return;
         }
         String name = txtName.getText().trim();
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Name cannot be empty.",
-                "Validation", JOptionPane.WARNING_MESSAGE);
+                    "Validation", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        selected.getPerson().setPersonId(name);
+        selected.getPerson().setName(name);
+        selected.getPerson().setEmail(txtEmail.getText().trim());
+        selected.getPerson().setPhoneNumber(txtPhone.getText().trim());
         refreshTable();
-        JOptionPane.showMessageDialog(this, "Faculty updated.");
+        JOptionPane.showMessageDialog(this, "Employee updated.");
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void tblFacultyMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFacultyMousePressed
+    private void tblEmployeeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblFacultyMousePressed
+        int row = tblEmployee.getSelectedRow();
+    if (row < 0) {
+        return;
+    }
+    selected = rowProfiles.get(row);
+    txtName.setText(selected.getPerson().getName());
+    txtEmail.setText(selected.getPerson().getEmail());
+    txtPhone.setText(selected.getPerson().getPhoneNumber());
+    }//GEN-LAST:event_tblEmployeeMousePressed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if (selected == null) {
-            JOptionPane.showMessageDialog(this, "Select a faculty member first.",
-                "Selection Required", JOptionPane.WARNING_MESSAGE);
+         if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Select an employee first.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
             return;
         }
+
+        // Guard: do not let the logged-in admin delete their own record
+        if (currentUser != null && currentUser.getAssociatedPersonProfile() == selected) {
+            JOptionPane.showMessageDialog(this,
+                    "You cannot delete the employee record you are currently logged in as.",
+                    "Not Allowed", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         int confirm = JOptionPane.showConfirmDialog(this,
-            "Delete faculty \"" + selected.getPerson().getPersonId() + "\"?",
-            "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                "Delete employee \"" + selected.getPerson().getName() + "\"?",
+                "Confirm Delete", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) {
             return;
         }
-        business.getFacultydirectory().removeFaculty(selected);
+        business.getEmployeeDirectory().removeEmployee(selected);
         selected = null;
         txtName.setText("");
+        txtEmail.setText("");
+        txtPhone.setText("");
         refreshTable();
-        JOptionPane.showMessageDialog(this, "Faculty deleted.");
+        JOptionPane.showMessageDialog(this, "Employee deleted.");
+    
+
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -223,9 +265,33 @@ public class ManageEmployeeJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPhone;
-    private javax.swing.JTable tblFaculty;
+    private javax.swing.JTable tblEmployee;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
+
+    private void refreshTable() {
+        rowProfiles.clear();
+        DefaultTableModel model = buildModel();
+        for (EmployeeProfile ep : business.getEmployeeDirectory().getEmployeeList()) {
+            rowProfiles.add(ep);
+            model.addRow(new Object[]{
+                ep.getPerson().getName(),
+                ep.getPerson().getEmail(),
+                ep.getPerson().getPhoneNumber()
+            });
+        }
+        tblEmployee.setModel(model);
+    }
+    
+      private DefaultTableModel buildModel() {
+        return new DefaultTableModel(new Object[][]{},
+                new String[]{"Employee Name", "Email", "Phone"}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+    }
 }

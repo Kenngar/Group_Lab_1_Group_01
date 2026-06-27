@@ -6,6 +6,7 @@
 package UserInterface.WorkAreas.AdminRole.AdministerUserAccountsWorkResp;
 
 import Business.Business;
+import Business.Person.Person;
 import Business.UserAccounts.UserAccount;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -56,12 +57,12 @@ public class AdminUserAccount extends javax.swing.JPanel {
         txtPassword = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
         lblStatus = new javax.swing.JLabel();
-        lblNameValue = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
         lblRoleValue = new javax.swing.JLabel();
         btnUpdate1 = new javax.swing.JButton();
         lblLastUpdatedValue = new javax.swing.JLabel();
         lblLastUpdated = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 153, 153));
         setLayout(null);
@@ -118,11 +119,7 @@ public class AdminUserAccount extends javax.swing.JPanel {
         add(lblStatus);
         lblStatus.setBounds(40, 220, 100, 20);
 
-        lblNameValue.setForeground(new java.awt.Color(255, 255, 255));
-        add(lblNameValue);
-        lblNameValue.setBounds(370, 70, 140, 17);
-
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active ", "Inactive" }));
         add(cmbStatus);
         cmbStatus.setBounds(210, 220, 280, 23);
 
@@ -147,6 +144,8 @@ public class AdminUserAccount extends javax.swing.JPanel {
         lblLastUpdated.setText("Last Updated");
         add(lblLastUpdated);
         lblLastUpdated.setBounds(40, 260, 100, 19);
+        add(txtName);
+        txtName.setBounds(370, 70, 170, 23);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -160,6 +159,9 @@ public class AdminUserAccount extends javax.swing.JPanel {
             parent.refreshTable();
         }
 
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -171,7 +173,7 @@ public class AdminUserAccount extends javax.swing.JPanel {
 
     private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
         // TODO add your handling code here:
-        String username = txtUsername.getText().trim();
+        String username = txtUsername.getText();
         String password = txtPassword.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -201,19 +203,20 @@ public class AdminUserAccount extends javax.swing.JPanel {
     private javax.swing.JLabel lblLastUpdated;
     private javax.swing.JLabel lblLastUpdatedValue;
     private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblNameValue;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblRoleValue;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblUserName;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     private void populate() {
+        Person person = selecteduseraccount.getAssociatedPersonProfile().getPerson();
         lblRoleValue.setText(selecteduseraccount.getRole());
-        lblNameValue.setText(selecteduseraccount.getAssociatedPersonProfile().getPerson().getName());
+        txtName.setText(person.getName());
         txtUsername.setText(selecteduseraccount.getUserLoginName());
         txtPassword.setText(selecteduseraccount.getPassword());
         cmbStatus.setSelectedItem(selecteduseraccount.getStatus());

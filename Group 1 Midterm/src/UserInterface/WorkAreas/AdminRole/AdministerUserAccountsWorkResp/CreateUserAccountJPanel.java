@@ -184,7 +184,7 @@ public class CreateUserAccountJPanel extends javax.swing.JPanel {
         }
 
         UserAccountDirectory uad = business.getUserAccountDirectory();
-        if (uad.findByUsername(un) != null) {
+         if (uad.findByUsername(un) != null) {
             JOptionPane.showMessageDialog(this, "That username is already taken.",
                     "Duplicate", JOptionPane.WARNING_MESSAGE);
             return;
