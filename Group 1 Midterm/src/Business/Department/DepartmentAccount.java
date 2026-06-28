@@ -9,7 +9,7 @@ import Business.CourseSchedule.CourseSchedule;
 
 /**
  *
- * @author kal bugrara
+ * @author Kenneth Garcia
  */
 public class DepartmentAccount {
   Department department;

@@ -7,8 +7,10 @@
 package Business;
 
 import Business.Course.Course;
+import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
+import Business.CourseSchedule.SeatAssignment;
 import Business.Department.Department;
 import Business.Person.Person;
 import Business.Person.PersonDirectory;
@@ -21,6 +23,7 @@ import Business.Profiles.FacultyProfile;
 
 import Business.UserAccounts.UserAccount;
 import Business.UserAccounts.UserAccountDirectory;
+import java.util.ArrayList;
 
 /**
  *
@@ -71,7 +74,7 @@ class ConfigureABusiness {
         person009.setPhoneNumber("617-555-0108");
         
         
-         Department department = new Department("MSIS");
+        Department department = new Department("MSIS");
         business.setDepartment(department);
 
         Course c001 = department.newCourse("0001", "INFO5001", 3);
@@ -105,7 +108,16 @@ class ConfigureABusiness {
         department.addElectiveCourse(c007);
         department.addElectiveCourse(c008);
 
-        
+        ArrayList<CourseOffer> courseList1 = cs001.getSchedule();
+        for(int i = 0; i < courseList1.size(); i++){
+            CourseOffer currentCourse = courseList1.get(i);
+            currentCourse.generatSeats(10);
+        }
+        ArrayList<CourseOffer> courseList2 = cs002.getSchedule();
+        for(int i = 0; i < courseList2.size(); i++){
+            CourseOffer currentCourse = courseList2.get(i);
+            currentCourse.generatSeats(10);
+        }
         
 
 // Create Admins/Employee to manage the business
@@ -116,7 +128,10 @@ class ConfigureABusiness {
 //Student        
         StudentDirectory studentdirectory = business.getStudentDirectory();
         StudentProfile studentprofile0 = studentdirectory.newStudentProfile(person003);
-
+        
+        CourseLoad load1 = studentprofile0.newCourseLoad("Fall 2026");
+        SeatAssignment sa1 = co1.assignEmptySeat(load1);
+        SeatAssignment sa2 = co2.assignEmptySeat(load1);
 //Create Faculty
         FacultyDirectory facultydirectory = business.getFacultydirectory();
         FacultyProfile facultyprofile0 = facultydirectory.newFacultyProfile(person007);
@@ -144,6 +159,7 @@ class ConfigureABusiness {
         ua4.setLastUpdated(makeDate(2025, 4, 29));
 
         UserAccount ua5 = uadirectory.newUserAccount(facultyprofile1, "jack", "****"); // Jack White
+        
         
         
         

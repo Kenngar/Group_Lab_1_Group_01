@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author kal bugrara
+ * @author Kenneth Garcia
  */
 public class CourseLoad {
     String semester;
@@ -57,12 +57,12 @@ public class CourseLoad {
             return seatassignments;
         }
         
-        public void setStudentProfile(StudentProfile sp) {
-    this.studentProfile = sp;
-}
+    public void setStudentProfile(StudentProfile sp) {
+        this.studentProfile = sp;
+    }
 
-public StudentProfile getStudentProfile() {
-    return studentProfile;
-}
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
+    }
             
 }
