@@ -10,7 +10,7 @@ import java.lang.*;
 import java.util.HashMap;
 /**
  *
- * @author kal bugrara
+ * @author Kenneth Garcia
  */
 public class Calendar {
     

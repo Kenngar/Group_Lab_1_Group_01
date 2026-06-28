@@ -32,7 +32,7 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
     public ProfileWorkAreaMainFrame() {
         initComponents();
         business = ConfigureABusiness.initialize();
-
+        btnLogout.setVisible(false);
     }
 
     public void insert(JPanel jpanel) {

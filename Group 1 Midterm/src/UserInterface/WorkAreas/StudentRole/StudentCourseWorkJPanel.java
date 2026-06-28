@@ -26,7 +26,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author kens2
+ * @author Kenneth Garcia
  */
 public class StudentCourseWorkJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;

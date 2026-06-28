@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author kens2
+ * @author Kenneth Garcia
  */
 public class StudentGraduationJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
