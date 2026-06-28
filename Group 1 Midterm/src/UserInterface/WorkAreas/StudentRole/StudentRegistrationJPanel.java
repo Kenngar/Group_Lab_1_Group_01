@@ -9,13 +9,14 @@ import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
 import Business.CourseSchedule.SeatAssignment;
 import Business.Department.Department;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author Kenneth Garcia
+ * @author Kenneth Garcia NUID 003166112
  */
 public class StudentRegistrationJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
@@ -60,7 +61,19 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             columnModel.getColumn(4).setWidth(0);
         }
     }
-
+    
+    private boolean courseAlreadyInLoad(CourseLoad cl, String courseNumber) {
+    if (cl == null || cl.getSeatAssignments() == null) {
+        return false;
+    }
+    
+    for (SeatAssignment sa : cl.getSeatAssignments()) {
+        if (sa.getCourseOffer().getCourseNumber().equals(courseNumber)) {
+            return true;
+        }
+    }
+    return false;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -251,13 +264,39 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
         String courseNumber = jTextField1.getText().trim();
         CourseSchedule schedule = courseLoad.getSeatAssignments().get(0).getCourseOffer().getCourseSchedule();
         CourseOffer offer = schedule.getCourseOfferByNumber(courseNumber);
+        
         if (offer != null) {
-            offer.assignEmptySeat(courseLoad);
-            refreshTable(courseLoad);
-            jTextField1.setText("");
-        } else {
-            jTextField1.setText("");
-        }
+            boolean alreadyAdded = false;
+            for (SeatAssignment sa : courseLoad.getSeatAssignments()) {
+                if (sa.getCourseOffer().getCourseNumber().equals(courseNumber)) {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+            if (alreadyAdded) {
+                JOptionPane.showMessageDialog(this, 
+                "This course has already been added to your schedule.", 
+                "Duplicate Course", 
+                JOptionPane.WARNING_MESSAGE);
+                jTextField1.setText("");
+                } 
+            else {
+                offer.assignEmptySeat(courseLoad);
+                refreshTable(courseLoad);
+                jTextField1.setText("");
+                JOptionPane.showMessageDialog(this, 
+                "Course added successfully!", 
+                "Success", 
+                JOptionPane.INFORMATION_MESSAGE);
+                }
+            } 
+            else {
+                JOptionPane.showMessageDialog(this, 
+                "Could not identify course, please check course name", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+                jTextField1.setText("");
+            }
     }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

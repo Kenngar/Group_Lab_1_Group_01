@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Kenneth Garcia
+ * @author Kenneth Garcia NUID 003166112
  */
 public class StudentWorkAreaJPanel extends javax.swing.JPanel {
 

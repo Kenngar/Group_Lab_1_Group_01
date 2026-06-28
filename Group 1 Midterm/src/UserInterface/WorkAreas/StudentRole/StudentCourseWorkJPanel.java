@@ -5,28 +5,16 @@
 package UserInterface.WorkAreas.StudentRole;
 
 
-import Business.Business;
-import Business.UserAccounts.UserAccount;
-import Business.UserAccounts.UserAccountDirectory;
-
-
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
-import Business.Business;
-import Business.Course.Course;
 import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.SeatAssignment;
-import Business.UserAccounts.UserAccount;
-import java.awt.CardLayout;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author Kenneth Garcia
+ * @author Kenneth Garcia NUID 003166112
  */
 public class StudentCourseWorkJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
@@ -185,6 +173,7 @@ public class StudentCourseWorkJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRow = tblCourseLoad.getSelectedRow();
     if (selectedRow < 0) {
+        
         JOptionPane.showMessageDialog(this, 
             "Please select a course first", 
             "No Selection", 
