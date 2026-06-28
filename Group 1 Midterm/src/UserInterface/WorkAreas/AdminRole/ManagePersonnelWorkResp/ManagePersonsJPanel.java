@@ -6,9 +6,12 @@
 package UserInterface.WorkAreas.AdminRole.ManagePersonnelWorkResp;
 
 import Business.Business;
-
+import Business.Person.Person;
+import Business.Person.PersonDirectory;
+import javax.swing.JOptionPane;
 
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,15 +24,15 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
      */
     JPanel CardSequencePanel;
     Business business;
-
+    Person selectedPerson;
 
     public ManagePersonsJPanel(Business bz, JPanel jp) {
         CardSequencePanel = jp;
         this.business = bz;
         initComponents();
+        refreshTable();
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,8 +45,16 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
 
         Back = new javax.swing.JButton();
         Next = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        lblPhone = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        btnAddPerson = new javax.swing.JButton();
+        txtEmail = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblRegisterPerson = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 153, 153));
         setLayout(null);
@@ -55,7 +66,7 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
             }
         });
         add(Back);
-        Back.setBounds(20, 260, 76, 32);
+        Back.setBounds(30, 420, 80, 23);
 
         Next.setText("Next >>");
         Next.addActionListener(new java.awt.event.ActionListener() {
@@ -64,41 +75,162 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
             }
         });
         add(Next);
-        Next.setBounds(500, 260, 80, 32);
+        Next.setBounds(510, 420, 80, 23);
 
-        jLabel1.setText("Name");
-        add(jLabel1);
-        jLabel1.setBounds(20, 60, 190, 16);
+        lblTitle.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lblTitle.setText("Manage Personnel (HR) - Register Person");
+        add(lblTitle);
+        lblTitle.setBounds(21, 20, 550, 28);
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel2.setText("Manage Personnel (HR)");
-        add(jLabel2);
-        jLabel2.setBounds(21, 20, 550, 29);
+        lblEmail.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        lblEmail.setText("Email");
+        add(lblEmail);
+        lblEmail.setBounds(30, 110, 60, 20);
+
+        lblPhone.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        lblPhone.setText("Phone");
+        add(lblPhone);
+        lblPhone.setBounds(30, 150, 70, 20);
+
+        lblName.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        lblName.setText("Name");
+        add(lblName);
+        lblName.setBounds(30, 70, 70, 20);
+
+        btnAddPerson.setText("Add Person");
+        btnAddPerson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPersonActionPerformed(evt);
+            }
+        });
+        add(btnAddPerson);
+        btnAddPerson.setBounds(220, 190, 140, 23);
+        add(txtEmail);
+        txtEmail.setBounds(130, 110, 320, 30);
+        add(txtPhone);
+        txtPhone.setBounds(130, 150, 320, 23);
+        add(txtName);
+        txtName.setBounds(130, 70, 320, 23);
+
+        tblRegisterPerson.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Name", "Email", "Phone"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblRegisterPerson);
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(50, 240, 520, 150);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
         CardSequencePanel.remove(this);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
- //       ((java.awt.CardLayout)CardSequencePanel.getLayout()).show(CardSequencePanel, "IdentifyEventTypes");
 
     }//GEN-LAST:event_BackActionPerformed
 
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
         // TODO add your handling code here:
-        
-        AdministerPersonJPanel mppd = new AdministerPersonJPanel(business, CardSequencePanel);
+        // Validation: a person must be selected to administer
+        int selectedRow = tblRegisterPerson.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a person from the table first.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String name = (String) tblRegisterPerson.getValueAt(selectedRow, 0);  // it's a String now
+        selectedPerson = business.getPersonDirectory().findPerson(name);      // look up the real Person
+
+        if (selectedPerson == null) {
+            return;
+        }
+
+        AdministerPersonJPanel mppd = new AdministerPersonJPanel(business, selectedPerson, this, CardSequencePanel);
         CardSequencePanel.add(mppd);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
+
     }//GEN-LAST:event_NextActionPerformed
+
+    private void btnAddPersonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPersonActionPerformed
+        // TODO add your handling code here:
+        String name = txtName.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhone.getText().trim();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a person's name.",
+                    "Validation", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        PersonDirectory pd = business.getPersonDirectory();
+
+        if (pd.findPerson(name) != null) {
+            JOptionPane.showMessageDialog(this, "A person named \"" + name + "\" already exists.",
+                    "Duplicate", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Person p = pd.newPerson(name);   // create with name
+        p.setEmail(email);               // then save email
+        p.setPhoneNumber(phone);         // and phone
+
+        txtName.setText("");
+        txtEmail.setText("");            // clear all three fields after adding
+        txtPhone.setText("");
+        refreshTable();
+        JOptionPane.showMessageDialog(this, "Person registered: " + name);
+    }//GEN-LAST:event_btnAddPersonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
     private javax.swing.JButton Next;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnAddPerson;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPhone;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable tblRegisterPerson;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
+
+    public void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) tblRegisterPerson.getModel();
+
+        // clear existing rows
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
+        PersonDirectory pd = business.getPersonDirectory();
+        for (Person p : pd.getPersonList()) {
+            Object[] row = new Object[3];
+            row[0] = p.getName();
+            row[1] = p.getEmail();
+            row[2] = p.getPhoneNumber();
+            model.addRow(row);
+        }
+    }
 
 }

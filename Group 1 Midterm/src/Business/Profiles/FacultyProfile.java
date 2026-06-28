@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class FacultyProfile extends Profile {
 
     Person person;
+    String title;
     ArrayList<FacultyAssignment> facultyassignments;
     private UserAccount ua;
 
@@ -28,6 +29,14 @@ public class FacultyProfile extends Profile {
         this.facultyassignments = new ArrayList();
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public double getProfAverageOverallRating() {
 
         double sum = 0.0;

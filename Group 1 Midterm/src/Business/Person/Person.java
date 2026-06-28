@@ -12,21 +12,51 @@ package Business.Person;
 public class Person {
 
     String id;
+    String name;
+    String email;
+    String phoneNumber;
 
     public Person(String id) {
 
         this.id = id;
+        this.name = id;
     }
 
     public String getPersonId() {
         return id;
     }
 
+    public void setPersonId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+
     public boolean isMatch(String id) {
-        if (getPersonId().equals(id)) {
-            return true;
-        }
-        return false;
+         return id.equals(this.id);
     }
 
     @Override
@@ -34,3 +64,5 @@ public class Person {
         return getPersonId();
     }
 }
+
+

@@ -12,7 +12,8 @@ import Business.Person.Person;
  * @author kal bugrara
  */
 public class EmployeeProfile extends Profile {
-
+    String department;
+    String title;
 
 
     public EmployeeProfile(Person p) {
@@ -20,9 +21,36 @@ public class EmployeeProfile extends Profile {
         super(p); 
 
     }
+    
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    
     @Override
     public String getRole(){
         return  "Admin";
     }
+    
+    @Override
+    public String toString() {
+        return getPerson().getName();
+    }
+    
 
 }
+
+    
+    
