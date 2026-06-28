@@ -4,17 +4,19 @@ INFO5100 Group 1 Midterm
 Project Title: Digital University System
 
 1. Team Information: 
+
 Kenneth Garcia - member 1 - Student use case 
-Anh Nguyen - member 2 - Admin use case - implement user accounts, student records, faculty records, and their own profile
+Anh Nguyen - member 2 - Admin use case 
 Christopher Carmant - member 3 - Faculty use case
 
 2. Project Overview: 
-The Digital University System is a Java Swing desktop application that models the core administrative operations of a university. The system supports three user roles(Administrator, Faculty, and Student), each with its own work area. After a user
-logs in, the application authenticates their credentials and routes them to the work area that matches their role, enforcing role-based access control throughout.
+The Digital University System is a Java Swing desktop application that models the core administrative operations
+of a university. The system supports three user roles(Administrator, Faculty, and Student), each with its own
+work area. After a user logs in, the application authenticates their credentials and routes them to the work area that matches their role, enforcing role-based access control throughout.
 
 3. Installation & Setup Instructions: 
+
     Netbeans IDE 16, JDK 19
-// Provide step-by-step setup instructions, including how to clone the repository and run the project
 - Once the skeleton code is uploaded to the group repo, each team member opens GitHub Desktop:
     1. On the main branch, click Fetch origin to pull the latest skeleton.
     2. Switch to your own branch (e.g. feature-member2).
