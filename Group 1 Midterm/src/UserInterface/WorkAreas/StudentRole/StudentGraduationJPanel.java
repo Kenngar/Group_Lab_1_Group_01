@@ -4,7 +4,6 @@
  */
 package UserInterface.WorkAreas.StudentRole;
 
-import Business.Business;
 import Business.Course.Course;
 import Business.CourseSchedule.SeatAssignment;
 import Business.Degree.Degree;
