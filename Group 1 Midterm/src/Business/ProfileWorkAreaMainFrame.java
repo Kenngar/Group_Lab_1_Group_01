@@ -16,6 +16,7 @@ import Business.UserAccounts.UserAccountDirectory;
 import UserInterface.WorkAreas.AdminRole.AdminRoleWorkAreaJPanel;
 import UserInterface.WorkAreas.FacultyRole.FacultyWorkAreaJPanel;
 import UserInterface.WorkAreas.StudentRole.StudentWorkAreaJPanel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -151,6 +152,10 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
         UserAccountDirectory uad = business.getUserAccountDirectory();
         UserAccount useraccount = uad.AuthenticateUser(un, pw);
         if (useraccount == null) {
+            JOptionPane.showMessageDialog(this, 
+            "Could not identify user, please check username and password", 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
             return;
         }
         StudentWorkAreaJPanel studentworkareajpanel;
