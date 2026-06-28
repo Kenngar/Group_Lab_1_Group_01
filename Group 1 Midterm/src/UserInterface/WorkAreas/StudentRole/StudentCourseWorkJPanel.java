@@ -30,14 +30,12 @@ import javax.swing.table.TableColumnModel;
  */
 public class StudentCourseWorkJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
-    CourseLoad courseLoad;
     SeatAssignment selectedSeatAssignment;
     /**
      * Creates new form StudentCourseWorkJPanel
      */
     public StudentCourseWorkJPanel(CourseLoad cl, JPanel jp) {
         CardSequencePanel = jp;
-        this.courseLoad = cl;
         
         initComponents();
         refreshTable(cl);
@@ -62,7 +60,6 @@ public class StudentCourseWorkJPanel extends javax.swing.JPanel {
             row[2] = sa;
             ((DefaultTableModel) tblCourseLoad.getModel()).addRow(row);
         }
-        TableColumnModel columnModel = tblCourseLoad.getColumnModel();
     }
 
     /**

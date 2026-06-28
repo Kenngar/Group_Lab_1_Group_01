@@ -7,10 +7,8 @@ package UserInterface.WorkAreas.StudentRole;
 import Business.Business;
 import Business.CourseSchedule.CourseLoad;
 import Business.Degree.Degree;
-import Business.Department.Department;
 import Business.Profiles.StudentProfile;
 import Business.Profiles.Transcript;
-import UserInterface.WorkAreas.AdminRole.AdministerUserAccountsWorkResp.ManageUserAccountsJPanel;
 import javax.swing.JPanel;
 
 /**

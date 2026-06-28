@@ -5,7 +5,6 @@
 package UserInterface.WorkAreas.StudentRole;
 
 import Business.Course.Course;
-import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.SeatAssignment;
 import java.io.File;
 import java.util.ArrayList;
