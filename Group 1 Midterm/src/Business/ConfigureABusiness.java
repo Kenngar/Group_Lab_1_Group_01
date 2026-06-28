@@ -7,8 +7,10 @@
 package Business;
 
 import Business.Course.Course;
+import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
+import Business.CourseSchedule.SeatAssignment;
 import Business.Department.Department;
 import Business.Person.Person;
 import Business.Person.PersonDirectory;
@@ -92,6 +94,9 @@ class ConfigureABusiness {
         department.addElectiveCourse(c007);
         department.addElectiveCourse(c008);
         
+        CourseLoad load1 = studentprofile0.newCourseLoad("Fall 2026");
+        SeatAssignment sa1 = co1.assignEmptySeat(load1);
+        SeatAssignment sa2 = co2.assignEmptySeat(load1);
         return business;
     }
 
