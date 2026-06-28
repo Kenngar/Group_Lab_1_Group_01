@@ -6,13 +6,17 @@ Project Title: Digital University System
 1. Team Information: 
 
 Kenneth Garcia - member 1 - Student use case 
+
 Anh Nguyen - member 2 - Admin use case 
+
 Christopher Carmant - member 3 - Faculty use case
 
 2. Project Overview: 
+
 The Digital University System is a Java Swing desktop application that models the core administrative operations
 of a university. The system supports three user roles(Administrator, Faculty, and Student), each with its own
-work area. After a user logs in, the application authenticates their credentials and routes them to the work area that matches their role, enforcing role-based access control throughout.
+work area. After a user logs in, the application authenticates their credentials and routes them to the work area 
+that matches their role, enforcing role-based access control throughout.
 
 3. Installation & Setup Instructions: 
 
@@ -28,42 +32,29 @@ work area. After a user logs in, the application authenticates their credentials
 4. Authentication & Access Control: 
 // Explain the authentication process (e.g., login, logout)
 - On launch, the application shows a login screen with User Name and Password fields.
-  When the user clicks Login, the system calls UserAccountDirectory.AuthenticateUser(username, password), which checks the entered       credentials against every stored UserAccount.
+  When the user clicks Login, the system calls UserAccountDirectory.AuthenticateUser(username, password), which
+  checks the entered credentials against every stored UserAccount.
   If no match is found, login is rejected and the user remains on the login screen.
-  If a match is found, the system retrieves the account's associated Profile and routes the user to the correct work area.
+  If a match is found, the system retrieves the account's associated Profile and routes the user to the correct
+  work area.
 // Describe the authorization rules for different user roles (Admin, Faculty, Student)
 - After successful authentication, the system inspects the profile type and opens only that role's work area:
     Admin - EmployeeProfile - "Admin" - AdminRoleWorkAreaJPanel
 
 5. Features Implemented
+
 //Detail the functionalities implemented for each role
 //Clearly specify which team member was responsible for each feature
+
 Admin - (Anh Nguyen - Member 2)
-- Administer User Accounts (ManageUserAccountsJPanel, AdminUserAccount, CreateUserAccountJPanel) 
-  View all user accounts in a table (User Name, Status, Person, Last Updated).
-  Create a new account for any person who has a profile but no account yet (the create screen lists only account-less profiles
-  from the Employee, Student, and Faculty directories).
-  Modify an account's username, password, and status; the person's name is shown read-only.
-  Delete an account with a confirmation prompt.
-- Register Persons (HR) (ManagePersonsJPanel → AdministerPersonJPanel)
-  Register a new person with name, email, and phone.
-  Select a registered person and assign them a role (Employee/Admin, Faculty, or Student), which creates the matching profile.
-  Create a user account (username + password) for the newly profiled person, with duplicate username validation.
-- Manage Students (ManageStudentJPanel)
-  View all students (Name, Email, Phone, Hobbies).
-  Update a selected student's details.
-  Delete a student (and their linked login if one exists).
-- Manage Faculty (ManageFacultyJPanel)
-  View all faculty members in a table.
-  Update a selected faculty member's name.
-  Delete a faculty member.
-- Manage Staff / Employees (ManageEmployeeJPanel)
-  View all employees (Name, Email, Phone).
-  Update a selected employee's details.
-  Delete an employee, with a guard that prevents the logged-in admin from deleting their own record.
-- My Profile (AdminMyProfileJPanel)
-  View the logged-in admin's own details (name, role, last updated).
-  Update their own email, phone, username, and password, with duplicate-username validation.
+- User Account Management: View, create, update, and delete user accounts with username validation and status 
+management.
+- Person Registration (HR): Register new persons, assign roles (Admin/Employee, Faculty, Student), and create
+  user accounts.
+- Student Management: View, update, and delete student records (including linked accounts).
+- Faculty Management: View, update, and delete faculty records.
+- Employee Management: View, update, and delete employee records, with protection against self-deletion.
+- My Profile: View and update personal information, username, and password with duplicate username validation.
 
 6. Usage Instructions
 //Provide a step-by-step guide on how to interact with the system.
@@ -106,12 +97,12 @@ ADMIN:
 
 10. Contribution Breakdown:
 //Clearly state each team member’s contributions to the project.
-//Provide details on coding, documentation, testing, and other task
+//Provide details on coding, documentation, testing, and other tasks
 
 Member 2 - Anh Nguyen (Admin)
-- Coding: Implemented the full Administrator work area and its screens — Manage User Accounts, Create/Administer User Account,         Register Persons, Administer Person (role + account creation), Manage Students, Manage Faculty, Manage Staff/Employees, and Admin My Profile. Contributed the Admin branch of the login routing and shared business-layer adjustments (Person, PersonDirectory, ConfigureABusiness seed data).
+- Coding: Implemented the full Administrator work area and its screens — Manage User Accounts, Create/Administer User Account, Register Persons, Administer Person (role + account creation), Manage Students, Manage Faculty, Manage Staff/Employees, and Admin My Profile. Contributed the Admin branch of the login routing and shared business-layer adjustments (Person, PersonDirectory, ConfigureABusiness seed data).
 - Documentation: Authored the Administrator sections of this README (overview, features, usage, testing, challenges). 
-- Testing: Manually tested all Administrator functions and the authentication/authorization flow. Other: Managed branch commits and pull requests for the Admin feature branch.
+
 
 
  
