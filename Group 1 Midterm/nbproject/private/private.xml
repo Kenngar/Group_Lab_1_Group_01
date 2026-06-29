@@ -3,6 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/Users/christophercarmant/Desktop/Group_Lab_1_Group_01/Group%201%20Midterm/src/Business/CourseSchedule/CourseLoad.java</file>
+            <file>file:/Users/christophercarmant/Desktop/Group_Lab_1_Group_01/Group%201%20Midterm/src/UserInterface/WorkAreas/FacultyRole/FacultyWorkAreaJPanel.java</file>
+=======
             <file>file:/Users/anhnguyen/Documents/GitHub/Group_Lab_1_Group_01/Group%201%20Midterm/src/Business/ProfileWorkAreaMainFrame.java</file>
             <file>file:/Users/anhnguyen/Documents/GitHub/Group_Lab_1_Group_01/Group%201%20Midterm/src/Business/UserAccounts/UserAccount.java</file>
             <file>file:/Users/anhnguyen/Documents/GitHub/Group_Lab_1_Group_01/Group%201%20Midterm/src/UserInterface/WorkAreas/AdminRole/ManagePersonnelWorkResp/ManagePersonsJPanel.java</file>
@@ -21,6 +25,7 @@
             <file>file:/Users/anhnguyen/Documents/GitHub/Group_Lab_1_Group_01/Group%201%20Midterm/src/Business/Profiles/EmployeeDirectory.java</file>
             <file>file:/Users/anhnguyen/Documents/GitHub/Group_Lab_1_Group_01/Group%201%20Midterm/src/UserInterface/WorkAreas/AdminRole/AdminMyProfileJPanel.java</file>
             <file>file:/Users/anhnguyen/Documents/GitHub/Group_Lab_1_Group_01/Group%201%20Midterm/src/Business/Profiles/FacultyProfile.java</file>
+>>>>>>> main
         </group>
     </open-files>
 </project-private>
