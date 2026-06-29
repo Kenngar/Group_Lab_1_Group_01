@@ -169,4 +169,5 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
+    // End of variables declaration
 }
