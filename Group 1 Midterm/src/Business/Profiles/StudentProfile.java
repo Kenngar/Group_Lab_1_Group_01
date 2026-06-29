@@ -30,6 +30,7 @@ public class StudentProfile extends Profile {
 
     UserAccount ua;
     String hobbies = "N/A";
+    String interests = "N/A";
 
     public void setHobbies(String hobbies) {
         this.hobbies = hobbies;
@@ -82,5 +83,13 @@ public class StudentProfile extends Profile {
     public String getRole() {
         return "Student"; 
     }
+    
+    public String getInterests() {
+    return interests;
+}
+
+public void setInterests(String interests) {
+    this.interests = interests;
+}
 
 }

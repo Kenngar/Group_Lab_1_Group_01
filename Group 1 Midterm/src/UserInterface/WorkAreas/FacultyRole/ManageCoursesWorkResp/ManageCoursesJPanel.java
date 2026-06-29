@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import Business.CourseSchedule.Seat;
 
 /**
  * WR1 - Manage Courses
@@ -45,7 +46,7 @@ public class ManageCoursesJPanel extends javax.swing.JPanel {
                 String semester = co.getCourseSchedule() != null ? co.getCourseSchedule().getSemester() : "N/A";
                 int seats = co.getSeatList().size();
                 int enrolled = 0;
-                for (Business.CourseSchedule.Seat s : co.getSeatList()) {
+                for (Seat s : co.getSeatList()) {
                     if (s.isOccupied()) enrolled++;
                 }
                 model.addRow(new Object[]{
@@ -210,8 +211,7 @@ public class ManageCoursesJPanel extends javax.swing.JPanel {
     }
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {
-        CardSequencePanel.remove(this);
-        ((CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).show(CardSequencePanel, "FacultyWorkArea");
     }
 
     // Variables declaration
