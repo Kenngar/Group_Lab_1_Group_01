@@ -211,7 +211,8 @@ public class ManageCoursesJPanel extends javax.swing.JPanel {
     }
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {
-        ((java.awt.CardLayout) CardSequencePanel.getLayout()).show(CardSequencePanel, "FacultyWorkArea");
+        CardSequencePanel.remove(this);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }
 
     // Variables declaration
@@ -227,4 +228,5 @@ public class ManageCoursesJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtCourseNumber;
     private javax.swing.JTextField txtCredits;
     private javax.swing.JTextField txtSemester;
+    // End of variables declaration
 }

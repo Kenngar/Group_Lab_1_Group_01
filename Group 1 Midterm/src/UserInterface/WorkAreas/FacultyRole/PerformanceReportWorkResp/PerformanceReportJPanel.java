@@ -263,7 +263,7 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {
         CardSequencePanel.remove(this);
-        ((CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }
 
     // Variables declaration
@@ -280,4 +280,5 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblGrades;
     private javax.swing.JTextField txtGrade;
+    // End of variables declaration
 }

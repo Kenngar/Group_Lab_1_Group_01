@@ -133,7 +133,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     // WR1 - Manage Courses
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-        CardSequencePanel.removeAll();
+        
         ManageCoursesJPanel panel = new ManageCoursesJPanel(business, userAccount, CardSequencePanel);
         CardSequencePanel.add("ManageCourses", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
@@ -141,7 +141,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     // WR4 - Manage Student Profiles
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
-        CardSequencePanel.removeAll();
+        
         ManageStudentProfilesJPanel panel = new ManageStudentProfilesJPanel(business, userAccount, CardSequencePanel);
         CardSequencePanel.add("ManageStudentProfiles", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
@@ -149,7 +149,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     // WR2 - My Profile
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
-        CardSequencePanel.removeAll();
+        
         FacultyMyProfileJPanel panel = new FacultyMyProfileJPanel(business, userAccount, CardSequencePanel);
         CardSequencePanel.add("FacultyMyProfile", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
@@ -157,7 +157,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     // WR3 - Performance Reports
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {
-        CardSequencePanel.removeAll();
+        
         PerformanceReportJPanel panel = new PerformanceReportJPanel(business, userAccount, CardSequencePanel);
         CardSequencePanel.add("PerformanceReport", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
