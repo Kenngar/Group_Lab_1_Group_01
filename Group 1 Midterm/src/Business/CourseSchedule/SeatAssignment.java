@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author kal bugrara
+ * @author Kenneth Garcia
  */
 public class SeatAssignment {
 

@@ -7,7 +7,7 @@ package Business.CourseSchedule;
 
 /**
  *
- * @author kal bugrara
+ * @author Kenneth Garcia
  */
 public class Seat {
     

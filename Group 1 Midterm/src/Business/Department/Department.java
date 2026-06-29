@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author kal bugrara
+ * @author Kenneth Garcia
  */
 public class Department {
 
