@@ -33,7 +33,7 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
     public ProfileWorkAreaMainFrame() {
         initComponents();
         business = ConfigureABusiness.initialize();
-        
+        btnLogout.setVisible(false);
     }
 
     public void insert(JPanel jpanel) {
@@ -200,6 +200,7 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
+
         CardSequencePanel.removeAll();
 
         // Add back the default home label

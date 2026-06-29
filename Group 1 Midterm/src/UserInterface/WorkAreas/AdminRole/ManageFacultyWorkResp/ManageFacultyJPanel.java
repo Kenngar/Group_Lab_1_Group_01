@@ -221,7 +221,6 @@ public class ManageFacultyJPanel extends javax.swing.JPanel {
         }
         selected = rowProfiles.get(row);
         txtName.setText(selected.getPerson().getName());
-        txtTitle.setText(selected.getTitle());
 
     }//GEN-LAST:event_tblFacultyMousePressed
 
