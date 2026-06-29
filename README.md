@@ -56,6 +56,12 @@ management.
 - Employee Management: View, update, and delete employee records, with protection against self-deletion.
 - My Profile: View and update personal information, username, and password with duplicate username validation.
 
+  Student - (Kenneth Garcia - Member 1)
+- Manage coursework (submit assignments, track progress)
+- Register for classes (enroll, drop courses)
+- Perform graduation audit (track credits and graduation requirements)
+- Review transcript (view academic history).
+
 6. Usage Instructions
 //Provide a step-by-step guide on how to interact with the system.
 Logging in 
@@ -74,25 +80,54 @@ Logging in
    Use Manage Students / Manage Faculty / Manage Staff to view and edit existing records.
    Click My Profile to update your own contact details and credentials.
 
+- Example scenario — Student
+  Student - Log in as adam / ****.
+  Click coursework ​to view and track progress of all courses​, where you can select a course to upload a file for submitting assignments​
+  Click Registration, you can view enrolled courses and add/drop by inputting the course name. Pre-populated course names can be found in ConfigureABusiness
+  Click Transcript, this Jpanel allows a student to view their courses taken and the respective course number, credit value, semester, and grade. GPA and total credits are also calculated here. Formulas can be seen in the StudentTranscriptJPanel
+  Click Graduation Audit, here a student can view which courses are necessary to graduate along with the classification of each course (core/elective). The progress trackers at the bottom are updated as new classes are registered for.
 
 7. Testing Guide:
 //Outline how to test the system, including sample test cases.
-//Explain how to verify that authentication and authorization work correctly.
+Student:
+Registering for classes already listed in current enrollments is not possible
+Registering for the same class twice is not possible
+Registering for classes that do not exist is not possible
+Registering for blank class is not possible
 
-8. Challenges & Solutions
+
+//Explain how to verify that authentication and authorization work correctly.
+User logs in with username and password.​
+The system authenticates the credentials​ It reads the role and opens only that work area. 
+Logging in with blank credentials is not possible
+Logging in with invalid credentials is not possible
+
+9. Challenges & Solutions
 //Summarize any difficulties encountered during development.
 //Highlight the solutions implemented to overcome these challenges.
+General:
+- Conflicts with merging to main are encountered when shared classes are modified by separate contributors. A more thorough code skeleton prior to the coding of use cases including all shared elements like UI, pre-populated data, log in/log out functions, and back buttons would avoid this
 
 ADMIN Role:
 - Keeping the simplified Person model compatible with seeded data. The original model mixed the person id and display name. We simplified Person to a single-argument constructor and kept the id equal to the name, then set email/phone via setters in ConfigureABusiness. This matched the way the rest of the system creates people and avoided constructor-mismatch compile errors.
 - Hand-built Swing forms and code staying in sync. Because the screens were designed by hand in the NetBeans Design tab, the action code had to reference the exact component variable names from the designer. Several early bugs were simply name mismatches (e.g. an empty table-selection handler meaning Delete/Modify could never find the selected row). The fix was to wire each table's mousePressed handler to set the selected object before any button used it.
 
+  Student Role:
+- Navigating a student assigned seat to access their courseload as well as the information pertaining to the individual courses
+- Live updates to the transcript/graduation audit that would be accurate considering there is no "publish grades" function
+
 
 9. Future Enhancements
 //Suggest potential improvements or additional features that could be implemented.
+
 ADMIN: 
 - Separate admin and non-admin employees. Replace the hardcoded EmployeeProfile role with a flag so some staff are administrators and others are regular employees, and add a dedicated non-admin employee work area.
 - Password security. Store hashed passwords instead of plain text, and mask the password field.
+
+Student:
+- Navigate between different semesters and their respective courses
+- Create an assignment java class which saves the uploaded files and a grade can be updated
+- A contact faculty JPanel to reach out to applicable advisors or professors
 
 
 10. Contribution Breakdown:
@@ -101,7 +136,15 @@ ADMIN:
 
 Member 2 - Anh Nguyen (Admin)
 - Coding: Implemented the full Administrator work area and its screens — Manage User Accounts, Create/Administer User Account, Register Persons, Administer Person (role + account creation), Manage Students, Manage Faculty, Manage Staff/Employees, and Admin My Profile. Contributed the Admin branch of the login routing and shared business-layer adjustments (Person, PersonDirectory, ConfigureABusiness seed data).
-- Documentation: Authored the Administrator sections of this README (overview, features, usage, testing, challenges). 
+- Documentation: Authored the Administrator sections of this README (overview, features, usage, testing, challenges).
+
+Member 1 - Kenneth Garcia (Student)
+- Implemented the full Student work area and its screens
+- Created shared classes prior to the individual coding of use cases
+- Implemented a log out button
+- Pre-populated course data within ConfigureABusiness
+- General big fixing of other use cases
+- Splicing and upload of the video submission
 
 
 
